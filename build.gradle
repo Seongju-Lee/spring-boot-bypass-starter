@@ -9,7 +9,7 @@ apply plugin: 'maven-publish'
 publishing {
 	publications {
 		maven(MavenPublication) {
-			groupId 'com.github'
+			groupId 'com.github.Seongju-Lee'
 			artifactId 'spring-boot-bypass-starter'
 			version '0.0.1'
 			from components.java
