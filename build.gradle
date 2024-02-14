@@ -1,34 +1,12 @@
 plugins {
 	id 'java'
-//	id 'maven-publish'
 	id 'org.springframework.boot' version '3.2.2'
 	id 'io.spring.dependency-management' version '1.1.4'
+	id 'maven-publish' // 활성화된 maven-publish 플러그인
 }
 
-apply plugin: 'maven-publish'
-publishing {
-	publications {
-		maven(MavenPublication) {
-			groupId 'com.github.Seongju-Lee'
-			artifactId 'spring-boot-bypass-starter'
-			version '0.0.3'
-			from components.java
-
-			versionMapping {
-				usage('java-api') {
-					fromResolutionOf('runtimeClasspath')
-				}
-				usage('java-runtime') {
-					fromResolutionResult()
-				}
-			}
-		}
-	}
-}
-
-
-group = 'com.github'
-version = '0.0.1'
+group = 'com.github.Seongju-Lee'
+version = '0.0.4'
 
 java {
 	sourceCompatibility = '17'
@@ -50,4 +28,28 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+publishing {
+	publications {
+		maven(MavenPublication) {
+			groupId = project.group
+			artifactId = 'spring-boot-bypass-starter'
+			version = project.version
+
+			// Spring Boot 애플리케이션의 실행 가능한 JAR 파일을 포함
+			artifact bootJar
+
+			// 아래의 versionMapping은 의존성 정보를 관리하는 데 사용
+			// 이 설정은 의존성의 버전을 자동으로 매핑하는 데 도움
+			versionMapping {
+				usage('java-api') {
+					fromResolutionOf('runtimeClasspath')
+				}
+				usage('java-runtime') {
+					fromResolutionResult()
+				}
+			}
+		}
+	}
 }
